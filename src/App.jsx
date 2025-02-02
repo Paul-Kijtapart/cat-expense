@@ -124,21 +124,6 @@ function App() {
                         <Button color='red' onClick={() => deleteSelectedExpenses()}>Delete Expense(s)</Button>
                     </div>
                     <div>
-                        <div>
-                            RIP:
-                            <div>EXP delete: {expensesToDelete.length}</div>
-                            <div>EXP: {expenses.length}</div>
-                        </div>
-                        <div>
-                            Debug
-                            <ul>
-                                <li>{newExpense.item}</li>
-                                <li>{newExpense.amount}</li>
-                                <li>{newExpense.category}</li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div>
                         <Table size='small'>
                             <TableHeader>
                                 <TableRow>
