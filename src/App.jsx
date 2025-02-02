@@ -38,7 +38,7 @@ function App() {
     };
     const [newExpense, setNewExpense] = useState(baseExpense);
     const handleFormInputChange = (name, value) => setNewExpense({...newExpense, [name]: value})
-    const resetExpenseForm = function () {
+    const resetExpenseForm = () => {
         setNewExpense(baseExpense);
     };
 
@@ -55,6 +55,19 @@ function App() {
             setExpensesToDelete(expensesToDelete.filter(currentName => currentName !== expenseName));
         }
     };
+    const deleteSelectedExpenses = () => {
+        // remove all expense with the same item names as our delete array
+        setExpenses(expenses.filter(exp => {
+            for (let itemName of expensesToDelete) {
+                if (exp.item === itemName) {
+                    return false;
+                }
+            }
+            return true;
+        }));
+        setExpensesToDelete([]);
+    };
+
     return (<>
         <div className="h-full w-screen">
             <Modal
@@ -108,12 +121,13 @@ function App() {
                     </CardHeader>
                     <div className="flex">
                         <Button color='blue' onClick={() => setShowModal(true)}>Add Expense</Button>
-                        <Button color='red'>Delete Expense</Button>
+                        <Button color='red' onClick={() => deleteSelectedExpenses()}>Delete Expense(s)</Button>
                     </div>
                     <div>
                         <div>
                             RIP:
-                            {expensesToDelete}
+                            <div>EXP delete: {expensesToDelete.length}</div>
+                            <div>EXP: {expenses.length}</div>
                         </div>
                         <div>
                             Debug
