@@ -18,6 +18,7 @@ import {
     Form,
     Input,
     Label,
+    Message,
 } from 'semantic-ui-react';
 
 
@@ -34,12 +35,21 @@ function App() {
 
     // form to add a new expense
     const baseExpense = {
-        item: '', category: Category.Food.name, amount: '',
+        item: '', category: Category.Food.name, amount: 0,
     };
     const [newExpense, setNewExpense] = useState(baseExpense);
     const handleFormInputChange = (name, value) => setNewExpense({...newExpense, [name]: value})
     const resetExpenseForm = () => {
         setNewExpense(baseExpense);
+    };
+    const [expenseFormError, setExpenseFormError] = useState('')
+    const checkFormInput = () => {
+        let newError = '';
+        if (!Number.isInteger(newExpense.amount)) {
+            newError += 'Amount must be an integer. ';
+        }
+        setExpenseFormError(newError);
+        return newError;
     };
 
     // expensesToDelete = [expenseName1, expenseName2]
@@ -82,33 +92,47 @@ function App() {
                 <ModalHeader>Add a new expense</ModalHeader>
                 <ModalContent>
                     <Form onSubmit={() => {
-                        const expenseToAdd = new Expense(newExpense.item, newExpense.category, newExpense.amount);
-                        setExpenses([...expenses, expenseToAdd]);
-                        resetExpenseForm();
-                        setShowModal(false);
-                    }}>
-                        <FormField>
+                        const newError = checkFormInput();
+                        if (!newError) {
+                            const expenseToAdd = new Expense(newExpense.item, newExpense.category, newExpense.amount);
+                            setExpenses([...expenses, expenseToAdd]);
+                            resetExpenseForm();
+                            setShowModal(false);
+                        }
+                    }}
+                          error={Boolean(expenseFormError)}
+                    >
+                        <FormField required={true}>
                             <label>Item</label>
                             <input placeholder='Item Name' value={newExpense.item} onChange={e => {
-                                handleFormInputChange('item', e.target.value)
+                                handleFormInputChange('item', e.target.value);
+                                checkFormInput();
                             }}/>
                         </FormField>
-                        <FormField label='Categroy' control='select' value={newExpense.category} onChange={e => {
-                            handleFormInputChange('category', e.target.value)
-                        }}>
+                        <FormField required={true} label='Categroy' control='select' value={newExpense.category}
+                                   onChange={e => {
+                                       handleFormInputChange('category', e.target.value);
+                                       checkFormInput();
+                                   }}>
                             {Object.keys(Category).map(name => (<option key={name} value={name}>{name}</option>))}
                         </FormField>
-                        <FormField>
+                        <FormField required={true}>
                             <label>Amount</label>
                             <Input labelPosition='right' type='text' placeholder='Item amount'>
                                 <Label basic>$</Label>
                                 <input value={newExpense.amount} onChange={e => {
-                                    handleFormInputChange('amount', e.target.value)
+                                    handleFormInputChange('amount', parseInt(e.target.value));
+                                    checkFormInput();
                                 }}/>
                                 <Label>.00</Label>
                             </Input>
                         </FormField>
-                        <Button type='submit'>Submit</Button>
+                        <Message
+                            error
+                            header='Failed to submit a new expense'
+                            content={expenseFormError}
+                        />
+                        <Button disabled={expenseFormError} type='submit'>Submit</Button>
                     </Form>
                 </ModalContent>
             </Modal>
