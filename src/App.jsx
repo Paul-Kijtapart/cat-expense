@@ -35,7 +35,7 @@ function App() {
 
     // form to add a new expense
     const baseExpense = {
-        item: '', category: Category.Food.name, amount: 0,
+        item: null, category: Category.Food.name, amount: null,
     };
     const [newExpense, setNewExpense] = useState(baseExpense);
     const handleFormInputChange = (name, value) => setNewExpense({...newExpense, [name]: value})
@@ -45,6 +45,9 @@ function App() {
     const [expenseFormError, setExpenseFormError] = useState('')
     const checkFormInput = () => {
         let newError = '';
+        if (!newExpense.item) {
+            newError += 'Item name must be set. ';
+        }
         if (!Number.isInteger(newExpense.amount)) {
             newError += 'Amount must be an integer. ';
         }
