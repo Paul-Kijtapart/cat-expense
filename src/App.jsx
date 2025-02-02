@@ -1,6 +1,10 @@
 import { useState } from 'react'
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
+
+import { Button } from 'semantic-ui-react'
+
+
 import './App.css'
 
 function App() {
@@ -9,6 +13,7 @@ function App() {
   return (
     <>
         <div>
+            <Button>Click Here</Button>
             <h1 className="text-3xl font-bold text-red-100">
                 Hello world! yay wow
             </h1>
