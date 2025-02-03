@@ -28,6 +28,9 @@ const AppExpenseModal = ({showModal, setShowModal, expenses, setExpenses}) => {
     const resetExpenseForm = () => {
         setNewExpense(baseExpense);
     };
+    const isExpenseCategory = (s) => {
+        return Object.keys(Category).indexOf(s) !== 1;
+    };
 
     // form error
     const [expenseFormError, setExpenseFormError] = useState('')
@@ -35,6 +38,9 @@ const AppExpenseModal = ({showModal, setShowModal, expenses, setExpenses}) => {
         let newError = '';
         if (!newExpense.item) {
             newError += 'Item name must be set. ';
+        }
+        if (!isExpenseCategory(newExpense.category)) {
+            newError += 'Invalid Expense category'
         }
         if (!Number.isInteger(newExpense.amount)) {
             newError += 'Amount must be an integer. ';
