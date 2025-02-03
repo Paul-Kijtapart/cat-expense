@@ -86,8 +86,8 @@ function App() {
                         <CardHeader>Manage your expense</CardHeader>
                     </CardContent>
                     <CardContent>
-                        <Button color='violet' onClick={() => setShowModal(true)}>Add Expense</Button>
-                        <Button color='violet' onClick={() => deleteSelectedExpenses()}>Delete Expense(s)</Button>
+                        <Button color='blue' onClick={() => setShowModal(true)}>Add Expense</Button>
+                        <Button color='red' onClick={() => deleteSelectedExpenses()}>Delete Expense(s)</Button>
                     </CardContent>
                     <CardContent>
                         <p>Top spending categories are highlighted in <span className='text-green-500'>green</span></p>
