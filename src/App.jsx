@@ -81,6 +81,9 @@ function App() {
         setExpensesToDelete([]);
     };
 
+    // determine top expenses
+    const highestAmount = expenses.reduce((acc, exp) => Math.max(acc, exp.amount), 0);
+
     return (<>
         <div className="h-full w-screen">
             <Modal
@@ -151,6 +154,7 @@ function App() {
                         <Button color='red' onClick={() => deleteSelectedExpenses()}>Delete Expense(s)</Button>
                     </div>
                     <div>
+                        {highestAmount}
                         <Table size='small'>
                             <TableHeader>
                                 <TableRow>
@@ -162,16 +166,17 @@ function App() {
                             </TableHeader>
 
                             <TableBody>
-                                {expenses.map(exp => (<TableRow key={exp.item}>
-                                    <TableCell>
-                                        <Checkbox onChange={(event, params) => {
-                                            handleExpenseCheck(exp.item, event, params)
-                                        }}/>
-                                    </TableCell>
-                                    <TableCell>{exp.item}</TableCell>
-                                    <TableCell>{exp.category}</TableCell>
-                                    <TableCell>{exp.amount}$</TableCell>
-                                </TableRow>))}
+                                {expenses.map(exp => (
+                                    <TableRow key={exp.item} positive={highestAmount === exp.amount}>
+                                        <TableCell>
+                                            <Checkbox onChange={(event, params) => {
+                                                handleExpenseCheck(exp.item, event, params)
+                                            }}/>
+                                        </TableCell>
+                                        <TableCell>{exp.item}</TableCell>
+                                        <TableCell>{exp.category}</TableCell>
+                                        <TableCell>{exp.amount}$</TableCell>
+                                    </TableRow>))}
                             </TableBody>
                         </Table>
                     </div>
