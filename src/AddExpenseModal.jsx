@@ -67,7 +67,7 @@ const AppExpenseModal = ({showModal, setShowModal, expenses, setExpenses}) => {
 
     return (<>
         <Modal
-            size="small"
+            size="large"
             open={showModal}
             onClose={() => {
                 resetExpenseForm();
@@ -77,13 +77,13 @@ const AppExpenseModal = ({showModal, setShowModal, expenses, setExpenses}) => {
         >
             <ModalHeader>Add a new expense</ModalHeader>
             <ModalContent>
-                <Card>
+                <Card fluid>
                     <CardContent>
                         <CardHeader>
                             <span className='text-violet-800'>Random cat fact</span>
                         </CardHeader>
                         <CardDescription>
-                            <span className='text-violet-800'>{randomCatFact}</span>
+                            <p className='text-violet-800 min-h-15'>{randomCatFact}</p>
                         </CardDescription>
                     </CardContent>
                 </Card>
