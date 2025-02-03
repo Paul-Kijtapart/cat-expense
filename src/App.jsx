@@ -80,44 +80,49 @@ function App() {
                 expenses={expenses}
                 setExpenses={setExpenses}
             />}
+            <div className='flex'>
+                <Card className="!w-4xl centered">
+                    <CardContent>
+                        <CardHeader>Manage your expense</CardHeader>
+                    </CardContent>
+                    <CardContent>
+                        <Button color='violet' onClick={() => setShowModal(true)}>Add Expense</Button>
+                        <Button color='violet' onClick={() => deleteSelectedExpenses()}>Delete Expense(s)</Button>
+                    </CardContent>
+                    <CardContent>
+                        <p>Top spending categories are highlighted in <span className='text-green-500'>green</span></p>
+                        <p>Top spending categories are the categories with the highest
+                            amount: {Array.from(topSpendingCategories).map(cateogory => (
+                                <span key={cateogory} className='text-green-500'>{cateogory} </span>))}
+                        </p>
+                        <Table size='small'>
+                            <TableHeader>
+                                <TableRow>
+                                    <TableHeaderCell></TableHeaderCell>
+                                    <TableHeaderCell>Item</TableHeaderCell>
+                                    <TableHeaderCell>Category</TableHeaderCell>
+                                    <TableHeaderCell>Amount</TableHeaderCell>
+                                </TableRow>
+                            </TableHeader>
 
-            <Card className="!w-4xl">
-                <CardContent>
-                    <CardHeader>Manage your expense</CardHeader>
-                </CardContent>
-                <CardContent>
-                    <Button color='violet' onClick={() => setShowModal(true)}>Add Expense</Button>
-                    <Button color='violet' onClick={() => deleteSelectedExpenses()}>Delete Expense(s)</Button>
-                </CardContent>
-                <CardContent>
-                    <p>Top spending categories are highlighted in <span className='text-green-500'>green</span></p>
-                    <p>Top spending categories are the categories with the highest amount: {Array.from(topSpendingCategories).map(cateogory => (<span key={cateogory} className='text-green-500'>{cateogory} </span>))}
-                    </p>
-                    <Table size='small'>
-                        <TableHeader>
-                            <TableRow>
-                                <TableHeaderCell></TableHeaderCell>
-                                <TableHeaderCell>Item</TableHeaderCell>
-                                <TableHeaderCell>Category</TableHeaderCell>
-                                <TableHeaderCell>Amount</TableHeaderCell>
-                            </TableRow>
-                        </TableHeader>
+                            <TableBody>
+                                {expenses.map(exp => (
+                                    <TableRow key={exp.item} positive={isTopSpendingCategory(exp.category)}>
+                                        <TableCell>
+                                            <Checkbox onChange={(event, params) => {
+                                                handleExpenseCheck(exp.item, event, params)
+                                            }}/>
+                                        </TableCell>
+                                        <TableCell>{exp.item}</TableCell>
+                                        <TableCell>{exp.category}</TableCell>
+                                        <TableCell>{exp.amount}$</TableCell>
+                                    </TableRow>))}
+                            </TableBody>
+                        </Table>
+                    </CardContent>
+                </Card>
 
-                        <TableBody>
-                            {expenses.map(exp => (<TableRow key={exp.item} positive={isTopSpendingCategory(exp.category)}>
-                                <TableCell>
-                                    <Checkbox onChange={(event, params) => {
-                                        handleExpenseCheck(exp.item, event, params)
-                                    }}/>
-                                </TableCell>
-                                <TableCell>{exp.item}</TableCell>
-                                <TableCell>{exp.category}</TableCell>
-                                <TableCell>{exp.amount}$</TableCell>
-                            </TableRow>))}
-                        </TableBody>
-                    </Table>
-                </CardContent>
-            </Card>
+            </div>
         </div>
     </>);
 }
