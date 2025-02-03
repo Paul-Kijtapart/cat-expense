@@ -74,41 +74,36 @@ function App() {
 
             <Card className="!w-4xl">
                 <CardContent>
-                    <CardHeader>
-                        <h1 className="text-3xl font-bold">
-                            Manage your expense
-                        </h1>
-                    </CardHeader>
-                    <div className="flex">
-                        <Button color='blue' onClick={() => setShowModal(true)}>Add Expense</Button>
-                        <Button color='red' onClick={() => deleteSelectedExpenses()}>Delete Expense(s)</Button>
-                    </div>
-                    <div>
-                        <Table size='small'>
-                            <TableHeader>
-                                <TableRow>
-                                    <TableHeaderCell></TableHeaderCell>
-                                    <TableHeaderCell>Item</TableHeaderCell>
-                                    <TableHeaderCell>Category</TableHeaderCell>
-                                    <TableHeaderCell>Amount</TableHeaderCell>
-                                </TableRow>
-                            </TableHeader>
+                    <CardHeader>Manage your expense</CardHeader>
+                </CardContent>
+                <CardContent>
+                    <Button color='violet' onClick={() => setShowModal(true)}>Add Expense</Button>
+                    <Button color='violet' onClick={() => deleteSelectedExpenses()}>Delete Expense(s)</Button>
+                </CardContent>
+                <CardContent>
+                    <Table size='small'>
+                        <TableHeader>
+                            <TableRow>
+                                <TableHeaderCell></TableHeaderCell>
+                                <TableHeaderCell>Item</TableHeaderCell>
+                                <TableHeaderCell>Category</TableHeaderCell>
+                                <TableHeaderCell>Amount</TableHeaderCell>
+                            </TableRow>
+                        </TableHeader>
 
-                            <TableBody>
-                                {expenses.map(exp => (
-                                    <TableRow key={exp.item} positive={highestAmount === exp.amount}>
-                                        <TableCell>
-                                            <Checkbox onChange={(event, params) => {
-                                                handleExpenseCheck(exp.item, event, params)
-                                            }}/>
-                                        </TableCell>
-                                        <TableCell>{exp.item}</TableCell>
-                                        <TableCell>{exp.category}</TableCell>
-                                        <TableCell>{exp.amount}$</TableCell>
-                                    </TableRow>))}
-                            </TableBody>
-                        </Table>
-                    </div>
+                        <TableBody>
+                            {expenses.map(exp => (<TableRow key={exp.item} positive={highestAmount === exp.amount}>
+                                <TableCell>
+                                    <Checkbox onChange={(event, params) => {
+                                        handleExpenseCheck(exp.item, event, params)
+                                    }}/>
+                                </TableCell>
+                                <TableCell>{exp.item}</TableCell>
+                                <TableCell>{exp.category}</TableCell>
+                                <TableCell>{exp.amount}$</TableCell>
+                            </TableRow>))}
+                        </TableBody>
+                    </Table>
                 </CardContent>
             </Card>
         </div>

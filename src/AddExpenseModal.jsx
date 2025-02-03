@@ -73,9 +73,11 @@ const AppExpenseModal = ({showModal, setShowModal, expenses, setExpenses}) => {
             <ModalContent>
                 <Card>
                     <CardContent>
-                        <CardHeader>Random cat fact</CardHeader>
+                        <CardHeader>
+                            <span className='text-violet-800'>Random cat fact</span>
+                        </CardHeader>
                         <CardDescription>
-                            {randomCatFact}
+                            <span className='text-violet-800'>{randomCatFact}</span>
                         </CardDescription>
                     </CardContent>
                 </Card>
