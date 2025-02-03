@@ -24,6 +24,7 @@ import {
 
 import './App.css'
 import {Expense, Category} from "./models/expense.js";
+import AppExpenseModal from "./AddExpenseModal.jsx";
 
 const initialExpenses = [new Expense("Whiskers Cat food", Category.Food.name, 10), new Expense("Self cleaning cat Litter box", Category.Furniture.name, 500), new Expense("Diamond Cat collar", Category.Accessory.name, 1000),];
 
@@ -32,28 +33,6 @@ function App() {
 
     // add expense logic
     const [showModal, setShowModal] = useState(false)
-
-    // form to add a new expense
-    const baseExpense = {
-        item: null, category: Category.Food.name, amount: null,
-    };
-    const [newExpense, setNewExpense] = useState(baseExpense);
-    const handleFormInputChange = (name, value) => setNewExpense({...newExpense, [name]: value})
-    const resetExpenseForm = () => {
-        setNewExpense(baseExpense);
-    };
-    const [expenseFormError, setExpenseFormError] = useState('')
-    const checkFormInput = () => {
-        let newError = '';
-        if (!newExpense.item) {
-            newError += 'Item name must be set. ';
-        }
-        if (!Number.isInteger(newExpense.amount)) {
-            newError += 'Amount must be an integer. ';
-        }
-        setExpenseFormError(newError);
-        return newError;
-    };
 
     // expensesToDelete = [expenseName1, expenseName2]
     // this list contains the list of expenses to be removed. We can delete this by name
@@ -86,62 +65,13 @@ function App() {
 
     return (<>
         <div className="h-full w-screen">
-            <Modal
-                size="small"
-                open={showModal}
-                onClose={() => {
-                    resetExpenseForm();
-                    setShowModal(false);
-                }}
-                onOpen={() => setShowModal(true)}
-            >
-                <ModalHeader>Add a new expense</ModalHeader>
-                <ModalContent>
-                    <Form onSubmit={() => {
-                        const newError = checkFormInput();
-                        if (!newError) {
-                            const expenseToAdd = new Expense(newExpense.item, newExpense.category, newExpense.amount);
-                            setExpenses([...expenses, expenseToAdd]);
-                            resetExpenseForm();
-                            setShowModal(false);
-                        }
-                    }}
-                          error={Boolean(expenseFormError)}
-                    >
-                        <FormField required={true}>
-                            <label>Item</label>
-                            <input placeholder='Item Name' value={newExpense.item} onChange={e => {
-                                handleFormInputChange('item', e.target.value);
-                                checkFormInput();
-                            }}/>
-                        </FormField>
-                        <FormField required={true} label='Categroy' control='select' value={newExpense.category}
-                                   onChange={e => {
-                                       handleFormInputChange('category', e.target.value);
-                                       checkFormInput();
-                                   }}>
-                            {Object.keys(Category).map(name => (<option key={name} value={name}>{name}</option>))}
-                        </FormField>
-                        <FormField required={true}>
-                            <label>Amount</label>
-                            <Input labelPosition='right' type='text' placeholder='Item amount'>
-                                <Label basic>$</Label>
-                                <input value={newExpense.amount} onChange={e => {
-                                    handleFormInputChange('amount', parseInt(e.target.value));
-                                    checkFormInput();
-                                }}/>
-                                <Label>.00</Label>
-                            </Input>
-                        </FormField>
-                        <Message
-                            error
-                            header='Failed to submit a new expense'
-                            content={expenseFormError}
-                        />
-                        <Button disabled={expenseFormError} type='submit'>Submit</Button>
-                    </Form>
-                </ModalContent>
-            </Modal>
+            {showModal && <AppExpenseModal
+                showModal={showModal}
+                setShowModal={setShowModal}
+                expenses={expenses}
+                setExpenses={setExpenses}
+            />}
+
             <Card className="!w-4xl">
                 <CardContent>
                     <CardHeader>
@@ -154,7 +84,6 @@ function App() {
                         <Button color='red' onClick={() => deleteSelectedExpenses()}>Delete Expense(s)</Button>
                     </div>
                     <div>
-                        {highestAmount}
                         <Table size='small'>
                             <TableHeader>
                                 <TableRow>
