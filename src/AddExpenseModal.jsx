@@ -69,7 +69,7 @@ const AppExpenseModal = ({showModal, setShowModal, expenses, setExpenses}) => {
 
     return (<>
         <Modal
-            size="large"
+            size="small"
             open={showModal}
             onClose={() => {
                 resetExpenseForm();
