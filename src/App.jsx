@@ -62,6 +62,15 @@ function App() {
 
     // determine top expenses
     const highestAmount = expenses.reduce((acc, exp) => Math.max(acc, exp.amount), 0);
+    const topSpendingCategories = expenses.reduce((acc, exp) => {
+        if (exp.amount === highestAmount) {
+            acc.add(exp.category);
+        }
+        return acc;
+    }, new Set())
+    const isTopSpendingCategory = (category) => {
+        return topSpendingCategories.has(category);
+    }
 
     return (<>
         <div className="h-full w-screen">
@@ -81,6 +90,9 @@ function App() {
                     <Button color='violet' onClick={() => deleteSelectedExpenses()}>Delete Expense(s)</Button>
                 </CardContent>
                 <CardContent>
+                    <p>Top spending categories are highlighted in <span className='text-green-500'>green</span></p>
+                    <p>Top spending categories are the categories with the highest amount: {Array.from(topSpendingCategories).map(cateogory => (<span key={cateogory} className='text-green-500'>{cateogory} </span>))}
+                    </p>
                     <Table size='small'>
                         <TableHeader>
                             <TableRow>
@@ -92,7 +104,7 @@ function App() {
                         </TableHeader>
 
                         <TableBody>
-                            {expenses.map(exp => (<TableRow key={exp.item} positive={highestAmount === exp.amount}>
+                            {expenses.map(exp => (<TableRow key={exp.item} positive={isTopSpendingCategory(exp.category)}>
                                 <TableCell>
                                     <Checkbox onChange={(event, params) => {
                                         handleExpenseCheck(exp.item, event, params)
