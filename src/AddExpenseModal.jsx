@@ -24,12 +24,14 @@ const AppExpenseModal = ({showModal, setShowModal, expenses, setExpenses}) => {
         item: null, category: Category.Food.name, amount: null,
     };
     const [newExpense, setNewExpense] = useState(baseExpense);
-    const handleFormInputChange = (name, value) => setNewExpense({...newExpense, [name]: value})
+    const handleFormInputChange = (name, value) => {
+        setNewExpense({...newExpense, [name]: value});
+    };
     const resetExpenseForm = () => {
         setNewExpense(baseExpense);
     };
     const isExpenseCategory = (s) => {
-        return Object.keys(Category).indexOf(s) !== 1;
+        return Object.keys(Category).indexOf(s) !== -1;
     };
 
     // form error
