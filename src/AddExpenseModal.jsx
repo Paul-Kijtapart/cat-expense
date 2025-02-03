@@ -130,7 +130,7 @@ const AppExpenseModal = ({showModal, setShowModal, expenses, setExpenses}) => {
                         header='Failed to submit a new expense'
                         content={expenseFormError}
                     />
-                    <Button disabled={expenseFormError} type='submit'>Submit</Button>
+                    <Button disabled={expenseFormError} type='submit' color='blue'>Submit</Button>
                 </Form>
             </ModalContent>
         </Modal>
